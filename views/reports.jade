@@ -1,0 +1,130 @@
+extends layout
+
+block content
+    h1.
+        Reports/one - top 20 institutions
+
+    //form.am-form(action="top20institutions",method='post')
+    //    div.am-input-group.date.form_datetime-1(style="width:30%")
+    //        input.am-form-field(type="text",placeholder="选择日期",readonly)
+    //        span#calenderid.am-input-group-label.add-on
+    //            i.icon-th.am-icon-calendar
+    //    input.am-btn.am-btn-secondary(type='submit',value='提交',style="width:30%")
+    div#date-alert.am-alert.am-alert-danger(style="display: none")
+        p 只能选择一周内的数据！
+    form#date-form.am-form(action="/reports/test", method='POST')
+        div
+          input#my-date.am-form-field(type='text', name='my_date',placeholder='选择日期', readonly, required)
+          button#submitdate.am-btn.am-btn-primary(type='submit') submit
+    script.
+        $(function () {
+            var $alert = $('#date-alert');
+            $('#my-date').datepicker({format:'yyyy-mm-dd'}).
+              on('changeDate.datepicker.amui', function (event) {
+                if (event.date.valueOf() < new Date().valueOf() - 7*1000*60*60*24 ) {
+                    $alert.find('p').text('只能选择一周内的数据！').end().show();
+                } else {
+                    $alert.hide();
+                };
+                $(this).datepicker('close');
+            })
+        });
+
+    //按交易笔数排序
+    div#container
+    script.
+        $(function () {
+            $('#container').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type:'column'
+                },
+                title: {
+                    text: '收单机构-当日交易笔数Top20'
+                },
+                subtitle: {
+                    text: '单击浏览每个机构的交易笔数历史趋势，最多显示一个月的数据'
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/b>'
+                },
+                xAxis:{
+                    type:'category'
+                },
+                yAxis:{
+                    title:{
+                        text:'交易笔数占比'
+                    }
+                },
+                plotOptions:{
+                    line:{
+                      lineWidth:2,
+                      dataLabels:{
+                          enabled:true,
+                          format:'{point.y:.1f}'
+                      }
+                    },
+                    column:{
+                        borderWidth:0,
+                        dataLabels:{
+                            enabled:true,
+                            format:'{point.y:.1f}%'
+                        }
+                    }
+                },
+                series: [{
+                    name: '交易笔数占比',
+                    colorByPoint:true,
+                    data: !{results}
+                }],
+                drilldown:{
+                    series: !{drilldownResults}
+                }
+            });
+        });
+    // 按交易金额排序
+    div#container2
+    script.
+        $(function () {
+            $('#container2').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type:'column'
+                },
+                title: {
+                    text: '收单机构-当日交易金额(万元)'
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b>'
+                },
+                xAxis:{
+                    type:'category'
+                },
+                yAxis:{
+                    title:{
+                        text:'交易金额(万元)'
+                    }
+                },
+                plotOptions:{
+                    column:{
+                        borderWidth:2,
+                        dataLabels:{
+                            enabled:true,
+                            format:'{point.y:.1f}'
+                        }
+                    }
+                },
+                series: [{
+                    name: '交易金额(万元)',
+                    colorByPoint:true,
+                    data: !{results_M}
+                }]
+            });
+        });
+

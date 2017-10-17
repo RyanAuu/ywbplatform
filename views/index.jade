@@ -1,0 +1,166 @@
+extends layout
+
+block content
+  body(bgcolor="#8F8FBD")
+    meta(charset="utf-8")
+    style.
+        .get {
+            background: #1E5B94;
+            color: #fff;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .get-title {
+            font-size: 200%;
+            border: 2px solid #fff;
+            padding: 20px;
+            display: inline-block;
+        }
+
+        .get-btn {
+            background: #fff;
+        }
+
+        .detail {
+            background: #fff;
+        }
+
+        .detail-h2 {
+            text-align: center;
+            font-size: 150%;
+            margin: 40px 0;
+        }
+
+        .detail-h3 {
+            color: #1f8dd6;
+        }
+
+        .detail-p {
+            color: #7f8c8d;
+            font-size: medium;
+        }
+
+        .detail-mb {
+            margin-bottom: 30px;
+        }
+
+        .hope {
+            background: #0bb59b;
+            padding: 50px 0;
+        }
+
+        .hope-img {
+            text-align: center;
+        }
+
+        .hope-hr {
+            border-color: #149C88;
+        }
+
+        .hope-title {
+            font-size: 140%;
+        }
+
+        .about {
+            background: #fff;
+            padding: 40px 0;
+            color: #7f8c8d;
+        }
+
+        .about-color {
+            color: #34495e;
+        }
+
+        .about-title {
+            font-size: 180%;
+            padding: 30px 0 50px 0;
+            text-align: center;
+        }
+
+        .footer p {
+            color: #7f8c8d;
+            margin: 0;
+            padding: 15px 0;
+            text-align: center;
+            background: #2d3e50;
+        }
+    header.am-topbar.am-topbar-fixed-top
+        .am-container
+            h1.am-topbar-brand
+                p 四川银联数据服务平台
+            button.am-topbar-btn.am-topbar-toggle.am-btn.am-btn-sm.am-btn-secondary.am-show-sm-only(data-am-collapse="{target: '#collapse-head'}")
+                span.am-sr-only switch
+                span.am-icon-bars
+            #collapse-head.am-collapse.am-topbar-collapse
+                ul.am-nav.am-nav-pills.am-topbar-nav
+                    li.am-active
+                        a(href='') 概况
+                    li
+                        a(href='/reports/ccq') 云闪付
+                    li
+                        a(href='/reports/top20institutions') TOP机构
+                .am-topbar-right
+                    button.am-btn.am-btn-secondary.am-topbar-btn.am-btn-sm
+                        span.am-icon-pencil
+                        |   注册
+                .am-topbar-right
+                    button.am-btn.am-btn-primary.am-topbar-btn.am-btn-sm
+                        span.am-icon-user
+                        |   登录
+    .get
+        .am-g
+            .am-u-lg-12
+                h1.get-title 中国银联四川分公司 - DATA CENTER
+                p
+                    | 提供报表展现以及数据搜索服务
+                p
+                    a.am-btn.am-btn-sm.get-btn(href='http://www.95516.com') 获取新get技能√
+    .detail
+        .am-g.am-container
+            .am-u-lg-12
+                h2.detail-h2 清算数据报表
+                .am-g
+                    .am-u-lg-3.am-u-md-6.am-u-sm-12.detail-mb
+                        h3.detail-h3
+                            i.am-icon-money.am-icon-sm
+                            |   收入情况
+                        p.detail-p
+                            |   日收入：#{income} 万元;
+                            br
+                            |   年收入：#{year_income} 万元；
+                            br
+                            .am-progress.am-active
+                                .am-progress-bar.am-progress-bar-success(style='width: 100%') 收入指标完成度：#{(year_income/667.8).toFixed(2)}%
+                    .am-u-lg-3.am-u-md-6.am-u-sm-12.detail-mb
+                        h3.detail-h3
+                            i.am-icon-line-chart.am-icon-sm
+                            |   交易情况
+                        p.detail-p
+                            |   借记卡：
+                            br
+                            |   笔数：#{Debit_62_Sum} 万笔；
+                            br
+                            |   金额：#{(Debit_62_Money/10000).toFixed(2)} 亿元；
+                            br
+                            |   信用卡：
+                            br
+                            |   笔数：#{Credit_62_Sum} 万笔；
+                            br
+                            |   金额：#{(Credit_62_Money/10000).toFixed(2)} 亿元。
+                    .am-u-lg-3.am-u-md-6.am-u-sm-12.detail-mb
+                        h3.detail-h3
+                            i.am-icon-paypal.am-icon-sm
+                            |   贷记交易
+                        p.detail-p
+                            |   笔数：#{pull_sum} 万笔；
+                            br
+                            |   金额：#{(pull_money/10000).toFixed(2)} 亿元。
+                    .am-u-lg-3.am-u-md-6.am-u-sm-12.detail-mb
+                        h3.detail-h3
+                            i.am-icon-cloud.am-icon-sm
+                            |   云闪付
+                        p.detail-p
+                            |   NFC日笔数：#{ccq_Sum} 万笔；
+                            |   NFC年笔数：#{year_ccq_sum} 万笔；
+

@@ -1,0 +1,40 @@
+extends layout
+block content
+    h1.
+        Reports/two - cloud quick payment institutions
+    div#container(style='min-width: 500px; max-width: 800px; height: 500px; margin: 0 auto')
+    script.
+        $(function () {
+            $('#container').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                title: {
+                    text: '云闪付各产品占比统计'
+                },
+                subtitle: {
+                    text: '单击浏览每个云闪付产品的交易情况'
+                },
+                tooltip: {
+                    headerFormat: '{series.name}<br>',
+                    pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: '云闪付产品占比',
+                    data: !{results}
+                }]
+            });
+        });
